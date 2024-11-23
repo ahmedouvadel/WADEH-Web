@@ -39,7 +39,7 @@ export class LoginComponent {
           console.log('User logged in:', res);
           // Redirection vers la page d'accueil en cas de succès
           this.router.navigateByUrl("");
-        },
+          this.authService.updateAuthState(true);        },
         error: (error) => {
           console.error('Error logging in:', error);
           this.isLoading = false;

@@ -22,6 +22,10 @@ export class PropositionCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+  }
+
+  userExisted(){
     // Récupérer l'ID de l'utilisateur connecté
     this.userId = this.userService.getCurrentUserId();
     if (!this.userId) {

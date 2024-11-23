@@ -5,7 +5,6 @@
     <button
       class="btn btn-success"
       routerLink="/propositions/create"
-      routerLinkActive="active"
     >
       + Ajouter une proposition
     </button>
@@ -19,7 +18,7 @@
     >
       <div class="ms-2 me-auto">
         <div class="fw-bold">{{ proposition.title }}</div>
-   
+
         <a
           [href]="proposition.document"
           target="_blank"
