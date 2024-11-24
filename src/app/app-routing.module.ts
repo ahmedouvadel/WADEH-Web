@@ -14,6 +14,7 @@ import { PropositionCreateComponent } from './components/proposition-create/prop
 import { CreateContentComponent } from './components/create-content/create-content.component';
 import { CommentCreateComponent } from './components/comment-create/comment-create.component';
 import { AuthenticationGuard } from './guard/authentication.guard';
+import { CategoryContentsComponent } from './components/category-contents/category-contents.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'contents/:id', component: ContentDetailsComponent,  },
   { path: 'propositions', component: PropositionListComponent,  },
   { path: 'propositions/create', component: PropositionCreateComponent , },
+  { path: 'contents/:category', component: CategoryContentsComponent },
 ];
 
 

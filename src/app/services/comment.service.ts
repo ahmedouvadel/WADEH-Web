@@ -12,37 +12,40 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
+  private getHeaders(): HttpHeaders {
+    const token = window.localStorage.getItem('token'); // Retrieve token from localStorage
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
   // Récupérer tous les commentaires
   getAllComments(): Observable<Comment[]> {
-    return this.http.get<Comment[]>(this.apiUrl);
+    return this.http.get<Comment[]>(this.apiUrl, { headers: this.getHeaders() });
   }
 
   // Récupérer un commentaire par ID
-  getCommentById(id: number): Observable<Comment> {
-    return this.http.get<Comment>(`${this.apiUrl}/${id}`);
+  getCommentById(id: number|any): Observable<Comment> {
+    return this.http.get<Comment>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 
   // Récupérer les commentaires par contentId
-  getCommentsByContentId(contentId: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.apiUrl}/content/${contentId}`);
+  getCommentsByContentId(contentId: number|any): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.apiUrl}/content/${contentId}`, { headers: this.getHeaders() });
   }
 
   // Créer un nouveau commentaire
   createComment(comment: Comment): Observable<Comment> {
-    return this.http.post<Comment>(this.apiUrl, comment, {
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    });
+    return this.http.post<Comment>(this.apiUrl, comment, { headers: this.getHeaders() });
   }
 
   // Mettre à jour un commentaire
-  updateComment(id: number, comment: Comment): Observable<Comment> {
-    return this.http.put<Comment>(`${this.apiUrl}/${id}`, comment, {
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    });
+  updateComment(id: number|any, comment: Comment): Observable<Comment> {
+    return this.http.put<Comment>(`${this.apiUrl}/${id}`, comment, { headers: this.getHeaders() });
   }
 
   // Supprimer un commentaire
-  deleteComment(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteComment(id: number|any): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 }

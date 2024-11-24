@@ -45,7 +45,7 @@ export class ContentListComponent {
   }
 
 
-  viewComments(contentId: number | undefined): void {
+  viewComments(contentId: any | undefined): void {
     if (contentId) {
       // Appelez la méthode seulement si contentId est défini.
       this.commentService.getCommentsByContentId(contentId).subscribe(
@@ -63,7 +63,7 @@ export class ContentListComponent {
     }
   }
 
-  submitComment(contentId: number): void {
+  submitComment(contentId: any): void {
     if (contentId !== undefined) {
       const userId = this.userService.getCurrentUserId();
 

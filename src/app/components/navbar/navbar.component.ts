@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ContentService } from 'src/app/services/content.service';
 import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
 
 @Component({
@@ -9,34 +10,48 @@ import { UserStorageService } from 'src/app/services/Storage/user-storage.servic
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  categories = ['LAW', 'ANNOUNCEMENT', 'SURVEY']; // Simplified categories
+  categories: string[] = [];
   isAuthenticated: boolean = false;
   authSubscription: any;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private userStorageService: UserStorageService
+    private userStorageService: UserStorageService,
+    private contentService: ContentService
   ) {}
 
   ngOnInit(): void {
-    // Check if the user is authenticated at the start
-    /* this.isAuthenticated = !!this.userStorageService.getTokenAuth();
-
-    // Optionally, you can subscribe to an observable in `AuthService` if authentication state changes dynamically
-    this.authService.authState$.subscribe((authState) => {
-      this.isAuthenticated = authState;
-    }); */
-
     this.authSubscription = this.authService.authState$.subscribe((authState) => {
       this.isAuthenticated = authState;
     });
 
+    this.loadCategories();
   }
 
+  filterCategories() {
+    this.contentService.getAllContents().subscribe((contents) => {
+      const uniqueCategories = new Set(contents.map((content: any) => content.category));
+      this.categories = Array.from(uniqueCategories);
+    });
+  }
+
+  loadCategories() {
+    this.contentService.getAllContents().subscribe((contents) => {
+      const uniqueCategories = new Set(contents.map((content: any) => content.category));
+      this.categories = Array.from(uniqueCategories); // Convertir en tableau
+    });
+  }
+
+  // Naviguer vers le composant CategoryContents avec la catégorie sélectionnée
+  selectCategory(category: string) {
+    this.router.navigate(['/contents', category.toLowerCase()]);
+  }
+
+
   logout() {
-    this.userStorageService.signOut(); // Clear token and user data
-    this.isAuthenticated = false; // Update local state
-    this.router.navigate(['/login']); // Redirect to login page
+    this.userStorageService.signOut();
+    this.isAuthenticated = false;
+    this.router.navigate(['/login']);
   }
 }

@@ -21,7 +21,6 @@
           <a class="nav-link" routerLink="/" routerLinkActive="active">Accueil</a>
         </li>
 
-        <!-- Dropdown for categories -->
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -35,12 +34,16 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li *ngFor="let category of categories">
-              <a class="dropdown-item" [routerLink]="['contents', category]" routerLinkActive="active">
+              <a
+                class="dropdown-item"
+                (click)="selectCategory(category)"
+              >
                 {{ category }}
               </a>
             </li>
           </ul>
         </li>
+
 
         <li class="nav-item">
           <a class="nav-link" routerLink="propositions" routerLinkActive="active">Propositions</a>

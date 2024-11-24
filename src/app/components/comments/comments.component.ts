@@ -55,7 +55,7 @@ export class CommentsComponent implements OnInit {
       });
     }
   }
-  
+
 
   // Supprimer un commentaire
   deleteComment(commentId: number | undefined): void {
@@ -65,7 +65,7 @@ export class CommentsComponent implements OnInit {
       });
     }
   }
-  
+
 
   // Annuler la sélection d'un commentaire pour modification
   cancelEdit(): void {

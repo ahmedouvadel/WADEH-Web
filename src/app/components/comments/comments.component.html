@@ -1,12 +1,12 @@
 <div class="comments">
     <h2>Commentaires</h2>
-  
+
     <!-- Ajouter un commentaire -->
     <div class="add-comment">
       <input [(ngModel)]="newComment.text" placeholder="Ajouter un commentaire..." />
       <button (click)="addComment()">Ajouter</button>
     </div>
-  
+
     <!-- Liste des commentaires -->
     <ul>
       <li *ngFor="let comment of comments">
@@ -15,7 +15,7 @@
         <button (click)="deleteComment(comment.id)">Supprimer</button>
       </li>
     </ul>
-  
+
     <!-- Modifier un commentaire -->
     <div *ngIf="selectedComment" class="edit-comment">
       <h3>Modifier le commentaire</h3>
@@ -24,4 +24,3 @@
       <button (click)="cancelEdit()">Annuler</button>
     </div>
   </div>
-  

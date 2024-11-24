@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>Category: {{ category }}</h2>
+  <div *ngIf="contents.length > 0; else noContents">
+    <div *ngFor="let content of contents" class="content-item">
+      <h3>{{ content.title }}</h3>
+      <p>{{ content.body }}</p>
+      <p><strong>Created Date:</strong> {{ content.createdDate }}</p>
+    </div>
+  </div>
+  <ng-template #noContents>
+    <p>No contents available for this category.</p>
+  </ng-template>
+</div>

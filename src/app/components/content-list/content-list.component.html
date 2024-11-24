@@ -20,7 +20,7 @@
       <p><strong>Date de Création :</strong> {{ selectedContent.createdDate | date:'short' }}</p>
       <p><strong>Catégorie :</strong> {{ selectedContent.category }}</p>
 
-      <!-- Affichage des commentaires -->
+      <!-- Display existing comments -->
       <div *ngIf="comments && comments.length > 0">
         <h3>Commentaires :</h3>
         <ul class="comments-list">
@@ -29,11 +29,13 @@
           </li>
         </ul>
       </div>
-     
-      
-      
-      <a routerLink="/create-comment/:contentId" class="link">Créer un commentaire</a>
+
+      <!-- Link to create a comment -->
+      <a [routerLink]="['/create-comment', selectedContent.id]" class="link">
+        Ajouter un commentaire
+      </a>
     </div>
+
     <footer class="modal-footer">
       <button class="btn btn-secondary" (click)="viewComments(selectedContent.id)">Voir les Commentaires</button>
       <button class="btn btn-close" (click)="closeModal()">Fermer</button>
