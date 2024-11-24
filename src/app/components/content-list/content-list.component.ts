@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from '../../models/comment';  // Ajustez le chemin si nécessaire
 import { UserService } from 'src/app/services/user.service';
+import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
 
 
 @Component({
@@ -19,6 +20,8 @@ export class ContentListComponent {
   filteredContents = []; // Pour stocker les contenus filtrés
   selectedCategory: string | null = null; // La catégorie sélectionnée
   newComment: string = '';
+  isAgentLoggedIn : boolean = UserStorageService.isUserLoggedIn();
+  isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
 
   constructor(
     private contentService: ContentService,
@@ -28,6 +31,8 @@ export class ContentListComponent {
   ) { }
 
   ngOnInit() {
+    this.isAgentLoggedIn = UserStorageService.isUserLoggedIn();
+    this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
     this.contentService.getAllContents().subscribe(contents => {
       console.log(contents)
       this.contents = contents;

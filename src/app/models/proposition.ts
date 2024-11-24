@@ -5,4 +5,3 @@ export interface Proposition {
     status: boolean;
     userId: number;
   }
-  

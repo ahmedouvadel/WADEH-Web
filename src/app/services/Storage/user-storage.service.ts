@@ -33,7 +33,7 @@ export class UserStorageService {
   }
 
   static getUser(): any {
-    return localStorage.getItem(USER);
+    return localStorage.getItem(ROLE);
   }
   public getUserAuth(): any {
     const userString: string | null = window.localStorage.getItem(USER);
@@ -53,11 +53,11 @@ export class UserStorageService {
   }
 
   static getUserRole(): string {
-    const user = this.getUser();
-    if (user == null) {
+    const ROLE = this.getUser();
+    if (ROLE == null) {
       return '';
   }
-  return user.role;
+  return ROLE;
   }
 
   static isAdminLoggedIn(): boolean {
@@ -68,7 +68,7 @@ export class UserStorageService {
     return role == 'ROLE_ADMIN'
   }
 
-  static isAgentLoggedIn(): boolean {
+  static isUserLoggedIn(): boolean {
     if(this.getToken === null ){
       return false
     }

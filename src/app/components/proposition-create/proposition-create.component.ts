@@ -22,7 +22,7 @@ export class PropositionCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
+    this.userExisted();
   }
 
   userExisted(){

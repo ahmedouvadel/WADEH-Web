@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'comments', component: CommentsComponent, },
   { path: 'create-comment/:contentId', component: CommentCreateComponent , },
   { path: 'contents/:id', component: ContentDetailsComponent,  },
-  { path: 'propositions', component: PropositionListComponent,  },
+  { path: 'propositions', component: PropositionListComponent,  canActivate:[AuthenticationGuard] },
   { path: 'propositions/create', component: PropositionCreateComponent , },
   { path: 'contents/:category', component: CategoryContentsComponent },
 ];
