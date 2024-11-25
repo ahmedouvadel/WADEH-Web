@@ -66,7 +66,7 @@ getValidatedPropositions(): Observable<Proposition[]> {
   }
 
   // Update a proposition (with ownership check)
-  updateProposition(
+  /* updateProposition(
     id: number,
     userId: number,
     updatedProposition: Partial<Proposition>
@@ -79,7 +79,27 @@ getValidatedPropositions(): Observable<Proposition[]> {
         params: new HttpParams().set('userId', userId.toString()),
       }
     );
-  }
+  } */
+
+    updateProposition(
+      id: number,
+      userId: number,
+      updatedProposition: Partial<Proposition> | FormData
+    ): Observable<Proposition> {
+      const headers = updatedProposition instanceof FormData
+        ? undefined // Let the browser set `Content-Type` for FormData
+        : { headers: this.getHeaders() };
+
+      return this.http.put<Proposition>(
+        `${this.apiUrl}/${id}`,
+        updatedProposition,
+        {
+          ...headers,
+          params: new HttpParams().set('userId', userId.toString()),
+        }
+      );
+    }
+
 
   // Validate a proposition
   validateProposition(id: number): Observable<Proposition> {

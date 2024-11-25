@@ -24,6 +24,7 @@ import { CommentCreateComponent } from './components/comment-create/comment-crea
 import { customInterceptor } from './interceptors/custom.interceptor';
 import { RequestComponent } from './components/request-proposition/request.component';
 import { CategoryContentsComponent } from './components/category-contents/category-contents.component';
+import { EditPropositionComponent } from './components/edit-proposition/edit-proposition.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { CategoryContentsComponent } from './components/category-contents/catego
     CommentCreateComponent,
     RequestComponent,
     CategoryContentsComponent,
+    EditPropositionComponent,
   ],
   imports: [
     BrowserModule,

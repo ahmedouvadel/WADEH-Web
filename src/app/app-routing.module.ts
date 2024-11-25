@@ -16,11 +16,12 @@ import { CommentCreateComponent } from './components/comment-create/comment-crea
 import { AuthenticationGuard } from './guard/authentication.guard';
 import { CategoryContentsComponent } from './components/category-contents/category-contents.component';
 import { RequestComponent } from './components/request-proposition/request.component';
+import { EditPropositionComponent } from './components/edit-proposition/edit-proposition.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent , },
   { path: 'comment', component: CommentComponent, },
-  { path: 'users', component: UserListComponent, },
+  { path: 'users', component: UserListComponent,  },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'contents/:category', component: ContentListComponent },
@@ -32,6 +33,8 @@ const routes: Routes = [
   { path: 'propositions/create', component: PropositionCreateComponent , },
   { path: 'contents/:category', component: CategoryContentsComponent },
   { path: 'propositions/request', component: RequestComponent },
+  { path: 'propositions/edit/:id', component: EditPropositionComponent },
+
 
 
 ];

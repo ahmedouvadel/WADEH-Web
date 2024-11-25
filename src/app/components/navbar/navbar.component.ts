@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
     this.isAgentLoggedIn = UserStorageService.isUserLoggedIn();
     this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
     this.authSubscription = this.authService.authState$.subscribe((authState) => {
-      this.isAuthenticated = authState;
+    this.isAuthenticated = authState;
     });
 
     this.loadCategories();
@@ -56,6 +56,8 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.userStorageService.signOut();
     this.isAuthenticated = false;
+    this.isAgentLoggedIn = UserStorageService.isUserLoggedIn();
+    this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
     this.router.navigate(['/login']);
   }
 }

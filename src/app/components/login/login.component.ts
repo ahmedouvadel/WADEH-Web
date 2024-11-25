@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   user: User = { name: '', number: '', password: '' };
   loginForm: FormGroup;
   isLoading = false;
   errorMessage: string = '';
+  isUserLoggedIn : boolean = UserStorageService.isUserLoggedIn();
+  isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
 
   constructor(
     private authService: AuthService,
@@ -25,6 +28,10 @@ export class LoginComponent {
       number: ['', [Validators.required, Validators.pattern('^[234]{1}[0-9]{7}$')]],
       password: ['', [Validators.required, Validators.minLength(4)]]
     });
+  }
+  ngOnInit(): void {
+    this.isUserLoggedIn = UserStorageService.isUserLoggedIn();
+    this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
   }
 
   login() {

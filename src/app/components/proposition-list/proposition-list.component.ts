@@ -3,6 +3,7 @@ import { PropositionService } from '../../services/proposition.service';
 import { UserService } from '../../services/user.service'; // Assuming a service for managing user authentication
 import { Proposition } from '../../models/proposition';
 import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-proposition-list',
@@ -17,7 +18,8 @@ export class PropositionListComponent implements OnInit {
 
   constructor(
     private propositionService: PropositionService,
-    private userService: UserService // To get the logged-in user's ID
+    private userService: UserService, // To get the logged-in user's ID
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -38,11 +40,20 @@ export class PropositionListComponent implements OnInit {
     );
   }
 
+  canEditProposition(propositionUserId: number): boolean {
+    return this.isAdminLoggedIn || propositionUserId === this.currentUserId;
+  }
 
-  editProposition(id: number): void {
+
+  /* editProposition(id: number): void {
     console.log('Editing proposition with ID:', id);
     // Redirect to an edit form or open a modal for editing
+  } */
+
+  editProposition(id: number): void {
+    this.router.navigate(['/propositions/edit', id]);
   }
+
 
   deleteProposition(id: number): void {
     if (this.currentUserId !== null) {

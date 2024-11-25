@@ -24,11 +24,11 @@
           Voir le fichier
         </a>
       </div>
-      <div *ngIf="proposition.userId === currentUserId">
-        <button class="btn btn-primary me-2" (click)="editProposition(proposition.id)">
+      <div  >
+        <button *ngIf="proposition.userId === currentUserId" class="btn btn-primary me-2" (click)="editProposition(proposition.id)">
           Modifier
         </button>
-        <button class="btn btn-danger" (click)="deleteProposition(proposition.id)">
+        <button *ngIf="canEditProposition(proposition.userId)" class="btn btn-danger" (click)="deleteProposition(proposition.id)">
           Supprimer
         </button>
       </div>
