@@ -29,10 +29,44 @@ export class CreateContentComponent implements OnInit {
   }
 
   createContent(content: Content): void {
+    this.contentService.createContent(content).subscribe({
+      next: (newContent) => {
+        this.contents.push(newContent);
+        this.router.navigate(['/contents/:category']);
+      },
+      error: (err) => console.error('Error creating content:', err),
+    });
+  }
+
+  updateContent(content: Content): void {
+    if (content.id) {
+      this.contentService.updateContent(content.id, content).subscribe({
+        next: (updatedContent) => {
+          const index = this.contents.findIndex((c) => c.id === updatedContent.id);
+          if (index > -1) this.contents[index] = updatedContent;
+          this.router.navigate(['/contents']);
+        },
+        error: (err) => console.error('Error updating content:', err),
+      });
+    }
+  }
+
+  deleteContent(id: number): void {
+    this.contentService.deleteContent(id).subscribe({
+      next: () => {
+        this.contents = this.contents.filter((c) => c.id !== id);
+        console.log(`Content with ID ${id} deleted.`);
+      },
+      error: (err) => console.error('Error deleting content:', err),
+    });
+  }
+
+
+  /* createContent(content: Content): void {
     this.contentService.createContent(content).subscribe((newContent) => {
       this.contents.push(newContent); // Ajoute le nouveau contenu à la liste
       this.selectedContent = null; // Réinitialise le contenu sélectionné
-  
+
       // Redirection vers la page des contenus
       this.router.navigate(['/contents/:category']);
     });
@@ -53,5 +87,5 @@ export class CreateContentComponent implements OnInit {
       this.contents = this.contents.filter(content => content.id !== id);
       this.selectedContent = null;
     });
-  }
+  } */
 }

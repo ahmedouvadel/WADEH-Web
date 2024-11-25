@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'contents/:category', component: ContentListComponent },
-  { path: 'create', component: CreateContentComponent , },
+  { path: 'createContent', component: CreateContentComponent , },
   { path: 'comments', component: CommentsComponent, },
   { path: 'create-comment/:contentId', component: CommentCreateComponent , },
   { path: 'contents/:id', component: ContentDetailsComponent,  },

@@ -30,11 +30,23 @@ export class ContentService {
     return this.http.post<Content>(this.apiUrl, content, { headers: this.getHeaders() });
   }
 
-  updateContent(id: number, content: Content): Observable<Content> {
+  /* updateContent(id: number, content: Content): Observable<Content> {
     return this.http.put<Content>(`${this.apiUrl}/${id}`, content, { headers: this.getHeaders() });
   }
-
-  deleteContent(id: number): Observable<void> {
+   deleteContent(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
-  }
+  } */
+
+    updateContent(id: number, content: Partial<Content>): Observable<Content> {
+      return this.http.put<Content>(`${this.apiUrl}/${id}`, content, {
+        headers: this.getHeaders(),
+      });
+    }
+
+    deleteContent(id: number): Observable<void> {
+      return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+        headers: this.getHeaders(),
+      });
+    }
+
 }

@@ -14,6 +14,7 @@ import { UserStorageService } from 'src/app/services/Storage/user-storage.servic
   styleUrls: ['./content-list.component.css']
 })
 export class ContentListComponent {
+
   contents: Content[] = [];
   selectedContent: Content | null = null;
   comments: Comment[] = [];
@@ -91,7 +92,28 @@ export class ContentListComponent {
     }
   }
 
+  deleteContent(contentId: number | undefined): void {
+    if (!contentId) {
+      console.error('Invalid content ID');
+      return;
+    }
 
+    const confirmation = confirm('Are you sure you want to delete this content?');
+    if (confirmation) {
+      this.contentService.deleteContent(contentId).subscribe({
+        next: () => {
+          this.contents = this.contents.filter((content) => content.id !== contentId);
+          console.log(`Content with ID ${contentId} has been deleted.`);
+        },
+        error: (err) => {
+          console.error('Error deleting content:', err);
+        },
+      });
+    }
+  }
 
+    updateContent(_t11: Content) {
+    throw new Error('Method not implemented.');
+    }
 
 }

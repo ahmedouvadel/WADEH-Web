@@ -4,7 +4,7 @@
   <h2></h2>
   <button
     class="btn btn-success w-100"
-    routerLink="/propositions/create"
+    routerLink="/createContent"
   >
     + Ajouter une contenu
   </button>
@@ -15,7 +15,11 @@
     <div class="content-summary">
       <h3 class="content-title">{{ content.title }}</h3>
     </div>
-    <button class="btn btn-primary" (click)="viewContent(content)">Consulter</button>
+    <div class="divRow">
+      <button class="btn btn-primary" (click)="viewContent(content)">Consulter</button>
+      <button *ngIf="isAdminLoggedIn" class="btn btn-primary" (click)="updateContent(content)">Edit</button>
+      <button *ngIf="isAdminLoggedIn" class="btn btn-danger" (click)="deleteContent(content.id)">Delete</button>
+    </div>
   </div>
 </div>
 

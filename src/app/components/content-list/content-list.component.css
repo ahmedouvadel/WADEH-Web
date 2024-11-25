@@ -148,3 +148,10 @@
     transform: scale(1);
   }
 }
+
+.divRow
+{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
