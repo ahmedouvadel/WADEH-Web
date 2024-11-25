@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PropositionService } from '../../services/proposition.service';
 import { UserService } from '../../services/user.service'; // Assuming a service for managing user authentication
 import { Proposition } from '../../models/proposition';
+import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
 
 @Component({
   selector: 'app-proposition-list',
@@ -11,6 +12,8 @@ import { Proposition } from '../../models/proposition';
 export class PropositionListComponent implements OnInit {
   propositions: Proposition[] = [];
   currentUserId: number | any;
+  isUserLoggedIn : boolean = UserStorageService.isUserLoggedIn();
+  isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
 
   constructor(
     private propositionService: PropositionService,
@@ -18,6 +21,8 @@ export class PropositionListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isUserLoggedIn = UserStorageService.isUserLoggedIn();
+    this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
     this.currentUserId = this.userService.getCurrentUserId(); // Fetch the current user's ID
   this.loadPropositions();
   }
@@ -25,14 +30,14 @@ export class PropositionListComponent implements OnInit {
   loadPropositions(): void {
     this.propositionService.getAllPropositions().subscribe(
       (data) => {
-        this.propositions = data;
-        console.log(data)
+        this.propositions = data.filter((proposition) => proposition.status === true);
       },
       (error) => {
         console.error('Error loading propositions:', error);
       }
     );
   }
+
 
   editProposition(id: number): void {
     console.log('Editing proposition with ID:', id);

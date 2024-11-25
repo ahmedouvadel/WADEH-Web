@@ -1,21 +1,26 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Liste des Propositions</h2>
-    <button class="btn btn-success" routerLink="/propositions/create">
+    <button  class="btn btn-success" routerLink="/propositions/create">
       + Ajouter une proposition
+    </button>
+
+    <button *ngIf="isAdminLoggedIn" class="btn btn-success" routerLink="/propositions/request">
+      + invitation de proposition
     </button>
   </div>
 
   <ul class="list-group">
     <li
-      class="list-group-item d-flex justify-content-between align-items-start"
+      class="list-group-item d-flex justify-content-between align-items-center"
       *ngFor="let proposition of propositions"
     >
       <div class="ms-2 me-auto">
-        <div class="fw-bold">{{ proposition.title }}</div>
+        <div class="card-title poppins-style" ><strong>Publié par : </strong>{{proposition.userProfile }}</div>
+        <div class="proposition-title">{{ proposition.title }}</div>
         <!-- <p>User ID (Proposition): {{ proposition.userId }}</p>
         <p>Current User ID: {{ currentUserId }}</p> -->
-        <a [href]="proposition.document" target="_blank" class="btn btn-link p-0">
+        <a [href]="proposition.document" target="_blank" class="proposition-title btn btn-link p-0">
           Voir le fichier
         </a>
       </div>

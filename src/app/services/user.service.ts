@@ -52,8 +52,8 @@ export class UserService {
    * Récupère tous les utilisateurs
    * @returns Observable<User[]>
    */
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl, { headers: this.getHeaders() });
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any>(this.apiUrl, { headers: this.getHeaders() });
   }
 
   /**

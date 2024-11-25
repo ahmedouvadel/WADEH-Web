@@ -22,8 +22,8 @@ import { PropositionListComponent } from './components/proposition-list/proposit
 import { PropositionCreateComponent } from './components/proposition-create/proposition-create.component';
 import { CommentCreateComponent } from './components/comment-create/comment-create.component';
 import { customInterceptor } from './interceptors/custom.interceptor';
-
-
+import { RequestComponent } from './components/request-proposition/request.component';
+import { CategoryContentsComponent } from './components/category-contents/category-contents.component';
 
 
 @NgModule({
@@ -43,7 +43,9 @@ import { customInterceptor } from './interceptors/custom.interceptor';
     ContentDetailsComponent,
     PropositionListComponent,
     PropositionCreateComponent,
-    CommentCreateComponent
+    CommentCreateComponent,
+    RequestComponent,
+    CategoryContentsComponent,
   ],
   imports: [
     BrowserModule,

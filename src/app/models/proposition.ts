@@ -4,4 +4,5 @@ export interface Proposition {
     document: string; // Champ pour le document
     status: boolean;
     userId: number;
+    userProfile: string; // Add this field
   }

@@ -20,7 +20,11 @@ export class PropositionService {
   }
 
   // Create a new proposition with a file
-  createProposition(title: string, userId: number, file: File): Observable<Proposition> {
+  createProposition(
+    title: string,
+    userId: number,
+    file: File
+  ): Observable<Proposition> {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('userId', userId.toString());
@@ -38,6 +42,15 @@ export class PropositionService {
     });
   }
 
+  // Get propositions with status === true
+getValidatedPropositions(): Observable<Proposition[]> {
+  return this.http.get<Proposition[]>(`${this.apiUrl}/validated`, {
+    headers: this.getHeaders(),
+  });
+}
+
+
+
   // Get propositions by user
   getPropositionsByUser(userId: number): Observable<Proposition[]> {
     return this.http.get<Proposition[]>(`${this.apiUrl}/user/${userId}`, {
@@ -53,11 +66,30 @@ export class PropositionService {
   }
 
   // Update a proposition (with ownership check)
-  updateProposition(id: number, userId: number, updatedProposition: Partial<Proposition>): Observable<Proposition> {
-    return this.http.put<Proposition>(`${this.apiUrl}/${id}`, updatedProposition, {
-      headers: this.getHeaders(),
-      params: new HttpParams().set('userId', userId.toString()),
-    });
+  updateProposition(
+    id: number,
+    userId: number,
+    updatedProposition: Partial<Proposition>
+  ): Observable<Proposition> {
+    return this.http.put<Proposition>(
+      `${this.apiUrl}/${id}`,
+      updatedProposition,
+      {
+        headers: this.getHeaders(),
+        params: new HttpParams().set('userId', userId.toString()),
+      }
+    );
+  }
+
+  // Validate a proposition
+  validateProposition(id: number): Observable<Proposition> {
+    return this.http.patch<Proposition>(
+      `${this.apiUrl}/${id}/validate`,
+      {},
+      {
+        headers: this.getHeaders(),
+      }
+    );
   }
 
   // Delete a proposition (with ownership check)

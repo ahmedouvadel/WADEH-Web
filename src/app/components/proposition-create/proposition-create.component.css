@@ -1,12 +1,15 @@
 .container {
     max-width: 600px;
   }
-  
+
   form {
     background-color: #f9f9f9;
   }
-  
+
   button {
     width: 100%;
   }
-  
+  .poppins-style {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400; /* Regular weight */
+}

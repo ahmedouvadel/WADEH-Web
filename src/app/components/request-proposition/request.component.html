@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Liste des Propositions</h2>
+  </div>
+
+  <ul class="list-group">
+    <li
+      class="list-group-item d-flex justify-content-between align-items-start"
+      *ngFor="let proposition of propositions"
+    >
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{ proposition.title }}</div>
+        <a [href]="proposition.document" target="_blank" class="btn btn-link p-0">
+          Voir le fichier
+        </a>
+      </div>
+
+      <!-- Admin View: Show Validate button if status is false -->
+      <div *ngIf="isAdminLoggedIn && !proposition.status">
+        <button class="btn btn-success" (click)="validateProposition(proposition.id)">
+          Valider
+        </button>
+      </div>
+
+      <!-- User View: Allow modification if status is true -->
+      <div *ngIf="!isAdminLoggedIn && proposition.userId === currentUserId && proposition.status">
+        <button class="btn btn-primary me-2" (click)="editProposition(proposition.id)">
+          Modifier
+        </button>
+        <button class="btn btn-danger" (click)="deleteProposition(proposition.id)">
+          Supprimer
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -13,6 +13,8 @@ export class NavbarComponent implements OnInit {
   categories: string[] = [];
   isAuthenticated: boolean = false;
   authSubscription: any;
+  isAgentLoggedIn : boolean = UserStorageService.isUserLoggedIn();
+  isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
 
   constructor(
     private router: Router,
@@ -22,6 +24,8 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isAgentLoggedIn = UserStorageService.isUserLoggedIn();
+    this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
     this.authSubscription = this.authService.authState$.subscribe((authState) => {
       this.isAuthenticated = authState;
     });

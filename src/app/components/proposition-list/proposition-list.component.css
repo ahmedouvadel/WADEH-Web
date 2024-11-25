@@ -1,19 +1,39 @@
+*{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400; /* Regular weight */
+}
+
 .proposition-list {
     padding: 20px;
   }
-  
+
   .list-group-item {
     margin-bottom: 10px;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
   }
-  
+
   h3 {
     margin: 0 0 10px;
   }
-  
+
   .btn {
-    margin-right: 10px;
-  }
-  
+    padding: 10px 15px;
+    border-radius: 8px; /* Rounded corners for card effect */  }
+  .card-title {
+    font-size: 1.25rem; /* Slightly larger text */
+    font-weight: 600; /* Bold for title-like emphasis */
+    color: #333; /* Dark gray text color */
+    background-color: #f9f9f9; /* Light background */
+    padding: 10px 15px; /* Space inside the card */
+    border-radius: 8px; /* Rounded corners for card effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 10px 0; /* Space around the card */
+}
+.proposition-title{
+  padding: 5px 5px;
+  border-radius: 8px; /* Rounded corners for card effect */
+
+}
+

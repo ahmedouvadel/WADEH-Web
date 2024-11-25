@@ -49,12 +49,16 @@
           <a class="nav-link" routerLink="propositions" routerLinkActive="active">Propositions</a>
         </li>
 
+        <li *ngIf="isAdminLoggedIn" class="nav-item" >
+          <a class="nav-link" routerLink="users" routerLinkActive="active">Users</a>
+        </li>
+
         <!-- Show login or logout based on authentication state -->
         <li class="nav-item" *ngIf="!isAuthenticated">
           <a class="nav-link" routerLink="/login" routerLinkActive="active">Se connecter</a>
         </li>
-        <li class="nav-item" *ngIf="isAuthenticated">
-          <a class="nav-link" (click)="logout()">Se déconnecter</a>
+        <li class="nav-item" *ngIf="isAuthenticated" >
+          <a class="nav-link" (click)="logout()" routerLinkActive="active">Se déconnecter</a>
         </li>
       </ul>
     </div>
