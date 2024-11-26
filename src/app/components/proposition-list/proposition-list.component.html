@@ -12,7 +12,7 @@
 
   <ul class="list-group">
     <li
-      class="list-group-item d-flex justify-content-between align-items-center"
+      class="card-title list-group-item d-flex justify-content-between align-items-center"
       *ngFor="let proposition of propositions"
     >
       <div class="ms-2 me-auto">
@@ -20,7 +20,7 @@
         <div class="proposition-title">{{ proposition.title }}</div>
         <!-- <p>User ID (Proposition): {{ proposition.userId }}</p>
         <p>Current User ID: {{ currentUserId }}</p> -->
-        <a [href]="proposition.document" target="_blank" class="proposition-title btn btn-link p-0">
+        <a (click)="downloadFile(proposition.document)" [href]="proposition.document" target="_blank" class="card-title proposition-title btn btn-link p-0">
           Voir le fichier
         </a>
       </div>

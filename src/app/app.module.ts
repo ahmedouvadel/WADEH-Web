@@ -25,6 +25,9 @@ import { customInterceptor } from './interceptors/custom.interceptor';
 import { RequestComponent } from './components/request-proposition/request.component';
 import { CategoryContentsComponent } from './components/category-contents/category-contents.component';
 import { EditPropositionComponent } from './components/edit-proposition/edit-proposition.component';
+import { UpdateContentComponent } from './components/update-content/update-content.component';
+import { saveAs } from 'file-saver'; // Install file-saver: npm install file-saver
+
 
 
 @NgModule({
@@ -48,6 +51,7 @@ import { EditPropositionComponent } from './components/edit-proposition/edit-pro
     RequestComponent,
     CategoryContentsComponent,
     EditPropositionComponent,
+    UpdateContentComponent,
   ],
   imports: [
     BrowserModule,

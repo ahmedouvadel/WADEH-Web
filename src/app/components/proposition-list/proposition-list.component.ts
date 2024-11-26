@@ -4,6 +4,8 @@ import { UserService } from '../../services/user.service'; // Assuming a service
 import { Proposition } from '../../models/proposition';
 import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver'; // Install file-saver: npm install file-saver
+
 
 @Component({
   selector: 'app-proposition-list',
@@ -33,6 +35,7 @@ export class PropositionListComponent implements OnInit {
     this.propositionService.getAllPropositions().subscribe(
       (data) => {
         this.propositions = data.filter((proposition) => proposition.status === true);
+        console.log(data)
       },
       (error) => {
         console.error('Error loading propositions:', error);
@@ -69,4 +72,26 @@ export class PropositionListComponent implements OnInit {
       console.error('User not authenticated.');
     }
   }
+
+  downloadFile(documentPath: string): void {
+    // Extract only the file name from the path
+    const fileName = documentPath.split('\\').pop() || documentPath;
+
+    this.propositionService.downloadFile(fileName).subscribe({
+      next: (blob) => {
+        saveAs(blob, fileName); // Use the file name to save the downloaded file
+        console.log('File downloaded successfully:', fileName);
+        this.router.navigate(['/propositions']);
+      },
+      error: (err) => {
+        console.error('Error downloading file:', err);
+      },
+    });
+  }
+
+
+
+
 }
+
+

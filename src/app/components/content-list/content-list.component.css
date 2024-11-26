@@ -1,22 +1,36 @@
-
-
-
-
-
-/* Liste de contenu */
-.content-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+/* General container styling */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
+/* Title and button row */
+.container .d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
+.container h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Content list */
+.content-list {
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0;
+}
+
+/* Individual content card */
 .content-card {
-  display: flex;               /* Utilisation de flexbox pour la mise en page */
-  flex-direction: column;      /* Empile les éléments (titre et bouton) verticalement */
-  justify-content: space-between;  /* Sépare les éléments pour que le bouton soit toujours en bas */
-  width: calc(33.333% - 16px);
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -24,52 +38,67 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
 .content-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Content title */
 .content-title {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  color: #333;
 }
 
-
-.btn {
-  display: inline-block;
-  padding: 12px;             /* Réduction de la taille et garde la forme carrée */
-  width: 100px;              /* Largeur fixe */
-  height: 50px;             /* Hauteur fixe égale à la largeur */
-  border: none;
-  border-radius: 4px;       /* Coins arrondis */
-  cursor: pointer;
-  font-size: 16px;          /* Taille du texte ajustée pour qu'il rentre dans le carré */
-  text-align: center;       /* Centrer le texte dans le carré */
-  line-height: 24px;        /* Ajustement de l'espacement vertical du texte */
-  transition: background 0.3s ease;
+/* Buttons in the card */
+.divRow {
+  display: flex;
+  gap: 8px;
   margin-top: auto;
 }
 
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin: 3px;
+}
 
+.btn:hover {
+  transform: translateY(-2px);
+}
 
 .btn-primary {
-  background: #14aa48;
-  color: #fff;
+  background-color: #007bff;
+  color: white;
 }
 
 .btn-primary:hover {
-  background: #84f68f;
+  background-color: #0056b3;
 }
 
-.btn-secondary {
-  background: #6c757d;
-  color: #fff;
+.btn-success {
+  background-color: #28a745;
+  color: white;
 }
 
-.btn-secondary:hover {
-  background: #5a6268;
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
 }
 
 .btn-close {
@@ -84,7 +113,7 @@
   color: #000;
 }
 
-/* Fenêtre modale */
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -95,13 +124,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
+/* Modal content */
 .modal-content {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border-radius: 8px;
   padding: 24px;
-  width: 500px;
+  width: 900px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease;
 }
@@ -111,23 +144,34 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
   margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  color: #333;
 }
 
 .modal-body {
   font-size: 14px;
+  line-height: 1.6;
 }
 
+/* Comments list */
 .comments-list {
   list-style: none;
   padding: 0;
 }
 
 .comment-item {
-  margin-bottom: 8px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
+/* Links */
 .link {
   color: #007bff;
   text-decoration: none;
@@ -137,21 +181,41 @@
   text-decoration: underline;
 }
 
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-card {
+    width: calc(50% - 16px); /* Two-column grid on smaller screens */
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  .modal-content {
+    width: 90%;
   }
 }
 
-.divRow
+@media (max-width: 480px) {
+  .content-card {
+    width: 100%; /* Single-column layout on very small screens */
+  }
+
+  .divRow {
+    flex-direction: column;
+  }
+}
+.modal-footer
 {
-  display: flex;
-  flex-direction: row;
+  padding: 10px, 5px;
   gap: 5px;
 }
+.comment-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+.comment-actions{
+  gap: 10px;
+}
+
+

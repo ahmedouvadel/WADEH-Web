@@ -17,6 +17,7 @@ import { AuthenticationGuard } from './guard/authentication.guard';
 import { CategoryContentsComponent } from './components/category-contents/category-contents.component';
 import { RequestComponent } from './components/request-proposition/request.component';
 import { EditPropositionComponent } from './components/edit-proposition/edit-proposition.component';
+import { UpdateContentComponent } from './components/update-content/update-content.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent , },
@@ -31,9 +32,10 @@ const routes: Routes = [
   { path: 'contents/:id', component: ContentDetailsComponent,  },
   { path: 'propositions', component: PropositionListComponent,  /* canActivate:[AuthenticationGuard] */ },
   { path: 'propositions/create', component: PropositionCreateComponent , },
-  { path: 'contents/:category', component: CategoryContentsComponent },
+  /* { path: 'contents/:category', component: CategoryContentsComponent }, */
   { path: 'propositions/request', component: RequestComponent },
   { path: 'propositions/edit/:id', component: EditPropositionComponent },
+  { path: 'contents/edit/:id', component: UpdateContentComponent },
 
 
 

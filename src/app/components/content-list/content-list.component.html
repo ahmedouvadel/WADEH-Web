@@ -10,18 +10,25 @@
   </button>
 </div>
 </div>
-<div class="content-list p-5">
-  <div class="content-card" *ngFor="let content of contents">
-    <div class="content-summary">
-      <h3 class="content-title">{{ content.title }}</h3>
-    </div>
-    <div class="divRow">
-      <button class="btn btn-primary" (click)="viewContent(content)">Consulter</button>
-      <button *ngIf="isAdminLoggedIn" class="btn btn-primary" (click)="updateContent(content)">Edit</button>
-      <button *ngIf="isAdminLoggedIn" class="btn btn-danger" (click)="deleteContent(content.id)">Delete</button>
+<div class="content-list ">
+
+  <div *ngIf="filteredContents.length > 0; else noContents">
+    <div *ngFor="let content of filteredContents" class="content-card">
+      <div class="content-summary">
+        <h3 class="content-title">{{ content.title }}</h3>
+      </div>
+      <div class="divRow">
+        <button class="btn btn-primary" (click)="viewContent(content)">Consulter</button>
+        <button *ngIf="isAdminLoggedIn" class="btn btn-primary" (click)="updateContent(content)">Edit</button>
+        <button *ngIf="isAdminLoggedIn" class="btn btn-danger" (click)="deleteContent(content.id)">Delete</button>
+      </div>
     </div>
   </div>
+  <ng-template #noContents>
+    <p>No contents available for this category.</p>
+  </ng-template>
 </div>
+
 
 <!-- Fenêtre modale des détails -->
 <div *ngIf="selectedContent" class="modal-overlay" (click)="closeModal()">
@@ -38,10 +45,14 @@
 
       <!-- Display existing comments -->
       <div *ngIf="comments && comments.length > 0">
-        <h3>Commentaires :</h3>
+        <p class="comment-title">Commentaires :</p>
         <ul class="comments-list">
           <li *ngFor="let comment of comments" class="comment-item">
-            <p>{{ comment.text }}</p>
+            <p><strong>{{ comment.userProfile}} : </strong> {{ comment.text }}</p>
+            <div  class="comment-actions">
+              <button *ngIf="canEditComment(comment.userId)" class="btn btn-primary" (click)="editComment(comment.id)">Modifier</button>
+              <button *ngIf="delteeComment(comment.userId)"  class="btn btn-danger" (click)="deleteComment(comment.id)">Supprimer</button>
+            </div>
           </li>
         </ul>
       </div>
@@ -54,7 +65,7 @@
 
     <footer class="modal-footer">
       <button class="btn btn-secondary" (click)="viewComments(selectedContent.id)">Voir les Commentaires</button>
-      <button class="btn btn-close" (click)="closeModal()">Fermer</button>
+      <button class="btn btn-danger" (click)="closeModal()">Fermer</button>
     </footer>
   </div>
 </div>

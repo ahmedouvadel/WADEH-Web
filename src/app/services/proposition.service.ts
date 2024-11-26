@@ -100,6 +100,12 @@ getValidatedPropositions(): Observable<Proposition[]> {
       );
     }
 
+    downloadFile(fileName: string): Observable<Blob> {
+      const apiUrl = `http://localhost:8080/api/propositions/download/${fileName}`;
+      return this.http.get(apiUrl, { responseType: 'blob' });
+    }
+
+
 
   // Validate a proposition
   validateProposition(id: number): Observable<Proposition> {

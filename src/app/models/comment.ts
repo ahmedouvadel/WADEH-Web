@@ -3,5 +3,6 @@ export interface Comment {
     text: string;       // Texte du commentaire
     userId: number| any;     // ID de l'utilisateur qui a écrit le commentaire
     contentId: number | any;
+    userProfile?: string; // Optional field for user profile
 
   }

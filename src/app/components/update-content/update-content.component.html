@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Update Content</h2>
+  <div class="card shadow p-4" *ngIf="content">
+    <form (ngSubmit)="updateContent()">
+      <!-- Title -->
+      <div class="form-group mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          id="title"
+          [(ngModel)]="content.title"
+          name="title"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <!-- Body -->
+      <div class="form-group mb-3">
+        <label for="body" class="form-label">Body</label>
+        <textarea
+          id="body"
+          [(ngModel)]="content.body"
+          name="body"
+          class="form-control"
+          rows="5"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Category -->
+      <div class="form-group mb-4">
+        <label for="category" class="form-label">Category</label>
+        <select
+          id="category"
+          [(ngModel)]="content.category"
+          name="category"
+          class="form-select"
+          required
+        >
+          <option value="LAW">Law</option>
+          <option value="ANNOUNCEMENT">Announcement</option>
+          <option value="SURVEY">Survey</option>
+        </select>
+      </div>
+
+      <!-- Submit and Cancel Buttons -->
+      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+  </div>
+  <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
+</div>

@@ -33,14 +33,14 @@ export class NavbarComponent implements OnInit {
     this.loadCategories();
   }
 
-  filterCategories() {
+  /* filterCategories() {
     this.contentService.getAllContents().subscribe((contents) => {
       const uniqueCategories = new Set(contents.map((content: any) => content.category));
       this.categories = Array.from(uniqueCategories);
     });
-  }
+  } */
 
-  loadCategories() {
+  /* loadCategories() {
     this.contentService.getAllContents().subscribe((contents) => {
       const uniqueCategories = new Set(contents.map((content: any) => content.category));
       this.categories = Array.from(uniqueCategories); // Convertir en tableau
@@ -50,7 +50,19 @@ export class NavbarComponent implements OnInit {
   // Naviguer vers le composant CategoryContents avec la catégorie sélectionnée
   selectCategory(category: string) {
     this.router.navigate(['/contents', category.toLowerCase()]);
-  }
+  } */
+
+    loadCategories(): void {
+      this.contentService.getAllContents().subscribe((contents) => {
+        const uniqueCategories = new Set(contents.map((content: any) => content.category));
+        this.categories = Array.from(uniqueCategories); // Convert Set to Array
+      });
+    }
+
+    selectCategory(category: string): void {
+      // Navigate to the selected category
+      this.router.navigate(['/contents', category.toLowerCase()]);
+    }
 
 
   logout() {

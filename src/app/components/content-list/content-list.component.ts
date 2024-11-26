@@ -6,6 +6,7 @@ import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from '../../models/comment';  // Ajustez le chemin si nécessaire
 import { UserService } from 'src/app/services/user.service';
 import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -18,9 +19,9 @@ export class ContentListComponent {
   contents: Content[] = [];
   selectedContent: Content | null = null;
   comments: Comment[] = [];
-  filteredContents = []; // Pour stocker les contenus filtrés
-  selectedCategory: string | null = null; // La catégorie sélectionnée
   newComment: string = '';
+  filteredContents: Content[] = [];
+  selectedCategory: string = '';
   isAgentLoggedIn : boolean = UserStorageService.isUserLoggedIn();
   isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
 
@@ -28,7 +29,8 @@ export class ContentListComponent {
     private contentService: ContentService,
     private commentService: CommentService,  // Ajout du CommentService
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -37,6 +39,25 @@ export class ContentListComponent {
     this.contentService.getAllContents().subscribe(contents => {
       console.log(contents)
       this.contents = contents;
+    });
+    // Watch for changes in the category parameter
+    this.route.params.subscribe((params) => {
+      this.selectedCategory = params['category'];
+      this.fetchContents();
+    });
+  }
+
+  fetchContents(): void {
+    this.contentService.getAllContents().subscribe((contents) => {
+      this.contents = contents;
+
+      // Filter contents by selected category
+      this.filteredContents = this.selectedCategory
+        ? this.contents.filter(
+            (content) =>
+              content.category.toLowerCase() === this.selectedCategory.toLowerCase()
+          )
+        : this.contents;
     });
   }
 
@@ -49,25 +70,22 @@ export class ContentListComponent {
     this.comments = []; // Réinitialise les commentaires
     this.newComment = '';
   }
-
-
-  viewComments(contentId: any | undefined): void {
-    if (contentId) {
-      // Appelez la méthode seulement si contentId est défini.
-      this.commentService.getCommentsByContentId(contentId).subscribe(
-        (comments) => {
-          // Logique pour afficher les commentaires
-          this.comments = comments; // Stocke les commentaires récupérés
-          console.log('Commentaires récupérés :', this.comments);
-        },
-        (error) => {
-          console.error('Erreur lors de la récupération des commentaires :', error);
-        }
-      );
-    } else {
-      console.error('Content ID is undefined');
+    viewComments(contentId: number | undefined): void {
+      if (contentId) {
+        this.commentService.getCommentsByContentId(contentId).subscribe(
+          (comments) => {
+            this.comments = comments;
+            console.log('Commentaires récupérés :', this.comments);
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération des commentaires :', error);
+          }
+        );
+      } else {
+        console.error('Content ID is undefined');
+      }
     }
-  }
+
 
   submitComment(contentId: any): void {
     if (contentId !== undefined) {
@@ -112,8 +130,54 @@ export class ContentListComponent {
     }
   }
 
-    updateContent(_t11: Content) {
-    throw new Error('Method not implemented.');
+  updateContent(content: Content): void {
+    // Redirect to an edit form with the content ID
+    this.router.navigate(['/contents/edit', content.id]);
+  }
+
+    canEditComment(commentUserId: number): boolean {
+      return commentUserId === this.userService.getCurrentUserId();
     }
+
+    delteeComment(commentUserId: number): boolean {
+      return this.isAdminLoggedIn || commentUserId === this.userService.getCurrentUserId();
+    }
+
+
+    editComment(commentId: number | undefined ): void {
+      const commentToEdit = this.comments.find((comment) => comment.id === commentId);
+      if (commentToEdit) {
+        const newText = prompt('Edit your comment:', commentToEdit.text);
+        if (newText !== null && newText.trim() !== '') {
+          const updatedComment = { ...commentToEdit, text: newText };
+
+          this.commentService.updateComment(commentId, updatedComment).subscribe({
+            next: (updated) => {
+              const index = this.comments.findIndex((comment) => comment.id === updated.id);
+              if (index !== -1) this.comments[index] = updated;
+              console.log('Comment updated:', updated);
+            },
+            error: (err) => console.error('Error updating comment:', err),
+          });
+        }
+      }
+    }
+
+    deleteComment(commentId: number| undefined): void {
+      const confirmation = confirm('Are you sure you want to delete this comment?');
+      if (confirmation) {
+        const userId = this.userService.getCurrentUserId();
+        if (userId !== null) {
+          this.commentService.deleteComment(commentId).subscribe({
+            next: () => {
+              this.comments = this.comments.filter((comment) => comment.id !== commentId);
+              console.log(`Comment with ID ${commentId} has been deleted.`);
+            },
+            error: (err) => console.error('Error deleting comment:', err),
+          });
+        }
+      }
+    }
+
 
 }

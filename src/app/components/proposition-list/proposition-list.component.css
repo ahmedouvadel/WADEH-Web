@@ -20,7 +20,10 @@
 
   .btn {
     padding: 10px 15px;
-    border-radius: 8px; /* Rounded corners for card effect */  }
+    border-radius: 8px; /* Rounded corners for card effect */
+    border-radius: 8px; /* Rounded corners for card effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
   .card-title {
     font-size: 1.25rem; /* Slightly larger text */
     font-weight: 600; /* Bold for title-like emphasis */
