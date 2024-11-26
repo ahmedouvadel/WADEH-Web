@@ -1,0 +1,17 @@
+.after-download-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.after-download-container h2 {
+  color: #28a745;
+}
+
+.after-download-container p {
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+.after-download-container .btn {
+  margin-top: 20px;
+}

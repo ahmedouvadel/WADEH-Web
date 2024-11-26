@@ -41,6 +41,50 @@ export class EditPropositionComponent implements OnInit {
   onSubmit(): void {
     if (this.proposition && this.currentUserId) {
       if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('title', this.proposition.title);
+        formData.append('userId', this.currentUserId.toString());
+        formData.append('file', this.selectedFile);
+
+        this.propositionService.updateProposition(this.proposition.id, this.currentUserId, formData).subscribe({
+          next: () => {
+            alert('Proposition mise à jour avec succès ! Le statut est maintenant en attente de validation.');
+            this.router.navigate(['/propositions']);
+          },
+          error: (err) => {
+            console.error('Error updating proposition:', err);
+          },
+        });
+      } else {
+        const updatedProposition: Partial<Proposition> = {
+          title: this.proposition.title,
+        };
+
+        this.propositionService.updateProposition(this.proposition.id, this.currentUserId, updatedProposition).subscribe({
+          next: () => {
+            alert('Proposition mise à jour avec succès ! Le statut est maintenant en attente de validation.');
+            this.router.navigate(['/propositions']);
+          },
+          error: (err) => {
+            console.error('Error updating proposition:', err);
+          },
+        });
+      }
+    }
+  }
+
+
+
+/*   onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  onSubmit(): void {
+    if (this.proposition && this.currentUserId) {
+      if (this.selectedFile) {
         // Use FormData when uploading a file
         const formData = new FormData();
         formData.append('title', this.proposition.title);
@@ -71,7 +115,7 @@ export class EditPropositionComponent implements OnInit {
         });
       }
     }
-  }
+  } */
 
 
   /* onSubmit(): void {

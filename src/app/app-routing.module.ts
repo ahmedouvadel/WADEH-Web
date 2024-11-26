@@ -18,9 +18,12 @@ import { CategoryContentsComponent } from './components/category-contents/catego
 import { RequestComponent } from './components/request-proposition/request.component';
 import { EditPropositionComponent } from './components/edit-proposition/edit-proposition.component';
 import { UpdateContentComponent } from './components/update-content/update-content.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AfterDownloadComponent } from './components/after-download/after-download.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent , },
+  { path: 'navbar', component: NavbarComponent,  },
   { path: 'comment', component: CommentComponent, },
   { path: 'users', component: UserListComponent,  },
   { path: 'register', component: RegisterComponent },
@@ -36,6 +39,7 @@ const routes: Routes = [
   { path: 'propositions/request', component: RequestComponent },
   { path: 'propositions/edit/:id', component: EditPropositionComponent },
   { path: 'contents/edit/:id', component: UpdateContentComponent },
+  { path: 'after-download', component: AfterDownloadComponent },
 
 
 

@@ -51,8 +51,9 @@ export class RequestComponent implements OnInit {
   }
 
   deleteProposition(id: number): void {
-    if (this.currentUserId !== null) {
-      this.propositionService.deleteProposition(id, this.currentUserId).subscribe(
+    const confirmation = confirm('Are you sure you want to delete this proposition ?');
+    if(confirmation){
+      this.propositionService.deleteProposition(id,).subscribe(
         () => {
           this.propositions = this.propositions.filter((p) => p.id !== id);
         },
@@ -60,9 +61,8 @@ export class RequestComponent implements OnInit {
           console.error('Error deleting proposition:', error);
         }
       );
-    } else {
-      console.error('User not authenticated.');
     }
+
   }
 
   validateProposition(id: number): void {

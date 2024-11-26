@@ -59,8 +59,9 @@ export class PropositionListComponent implements OnInit {
 
 
   deleteProposition(id: number): void {
-    if (this.currentUserId !== null) {
-      this.propositionService.deleteProposition(id, this.currentUserId).subscribe(
+    const confirmation = confirm('Are you sure you want to delete this proposition ?');
+    if(confirmation){
+      this.propositionService.deleteProposition(id,).subscribe(
         () => {
           this.propositions = this.propositions.filter((p) => p.id !== id);
         },
@@ -68,21 +69,21 @@ export class PropositionListComponent implements OnInit {
           console.error('Error deleting proposition:', error);
         }
       );
-    } else {
-      console.error('User not authenticated.');
     }
   }
+
 
   downloadFile(documentPath: string): void {
     // Extract only the file name from the path
     const fileName = documentPath.split('\\').pop() || documentPath;
+    this.router.navigate(['/after-download'], { queryParams: { fileName } });
 
     this.propositionService.downloadFile(fileName).subscribe({
       next: (blob) => {
         saveAs(blob, fileName); // Use the file name to save the downloaded file
         console.log('File downloaded successfully:', fileName);
-        this.router.navigate(['/propositions']);
-      },
+        this.router.navigate(['/after-download'], { queryParams: { fileName } });
+        },
       error: (err) => {
         console.error('Error downloading file:', err);
       },

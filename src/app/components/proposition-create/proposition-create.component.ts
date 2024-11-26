@@ -47,7 +47,8 @@ export class PropositionCreateComponent implements OnInit {
     this.propositionService.createProposition(this.title, this.userId, this.file).subscribe({
       next: (response: Proposition) => {
         console.log('Proposition créée avec succès :', response);
-        this.router.navigate(['/propositions']); // Redirection après création
+        alert('Votre suggestion a été envoyée avec succès aux administrateurs. Votre suggestion sera publiée après vérification du contenu.');
+        this.router.navigate(['/contents/:category']); // Redirection après création
       },
       error: (err) => {
         console.error('Erreur lors de la création de la proposition :', err);

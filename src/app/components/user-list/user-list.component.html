@@ -3,8 +3,8 @@
 
   <div class="user-card" *ngFor="let user of users">
     <div class="user-details">
-      <h3>{{ user.name }}</h3>
-      <p><strong>Numéro :</strong> {{ user.number }}</p>
+      <h3>{{ user.userprofile }}</h3>
+      <p><strong>Numéro :</strong> {{ user.username }}</p>
     </div>
     <button class="delete-btn" (click)="user.id !== undefined && deleteUser(user.id)">Supprimer</button>
   </div>

@@ -26,8 +26,7 @@ import { RequestComponent } from './components/request-proposition/request.compo
 import { CategoryContentsComponent } from './components/category-contents/category-contents.component';
 import { EditPropositionComponent } from './components/edit-proposition/edit-proposition.component';
 import { UpdateContentComponent } from './components/update-content/update-content.component';
-import { saveAs } from 'file-saver'; // Install file-saver: npm install file-saver
-
+import { AfterDownloadComponent } from './components/after-download/after-download.component';
 
 
 @NgModule({
@@ -52,6 +51,7 @@ import { saveAs } from 'file-saver'; // Install file-saver: npm install file-sav
     CategoryContentsComponent,
     EditPropositionComponent,
     UpdateContentComponent,
+    AfterDownloadComponent,
   ],
   imports: [
     BrowserModule,

@@ -65,23 +65,24 @@ getValidatedPropositions(): Observable<Proposition[]> {
     });
   }
 
-  // Update a proposition (with ownership check)
-  /* updateProposition(
+  updateProposition(
     id: number,
     userId: number,
-    updatedProposition: Partial<Proposition>
+    updatedProposition: Partial<Proposition> | FormData
   ): Observable<Proposition> {
-    return this.http.put<Proposition>(
-      `${this.apiUrl}/${id}`,
-      updatedProposition,
-      {
-        headers: this.getHeaders(),
-        params: new HttpParams().set('userId', userId.toString()),
-      }
-    );
-  } */
+    const headers =
+      updatedProposition instanceof FormData
+        ? undefined // Let the browser handle `Content-Type` for FormData
+        : { headers: this.getHeaders() };
 
-    updateProposition(
+    return this.http.put<Proposition>(`${this.apiUrl}/${id}`, updatedProposition, {
+      ...headers,
+      params: new HttpParams().set('userId', userId.toString()),
+    });
+  }
+
+
+    /* updateProposition(
       id: number,
       userId: number,
       updatedProposition: Partial<Proposition> | FormData
@@ -98,7 +99,7 @@ getValidatedPropositions(): Observable<Proposition[]> {
           params: new HttpParams().set('userId', userId.toString()),
         }
       );
-    }
+    } */
 
     downloadFile(fileName: string): Observable<Blob> {
       const apiUrl = `http://localhost:8080/api/propositions/download/${fileName}`;
@@ -118,12 +119,19 @@ getValidatedPropositions(): Observable<Proposition[]> {
     );
   }
 
-  // Delete a proposition (with ownership check)
+  // Delete a proposition
+  deleteProposition(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  /* // Delete a proposition (with ownership check)
   deleteProposition(id: number, userId: number): Observable<void> {
     const params = new HttpParams().set('userId', userId.toString());
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders(),
       params,
     });
-  }
+  } */
 }

@@ -1,29 +1,44 @@
-<div class="container mt-4">
-  <h2>Edit Proposition</h2>
-  <form (ngSubmit)="onSubmit()" *ngIf="proposition">
-    <div class="form-group mb-3">
-      <label for="title">Title</label>
-      <input
-        type="text"
-        id="title"
-        [(ngModel)]="proposition.title"
-        name="title"
-        class="form-control"
-        required
-      />
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Edit Proposition</h4>
     </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" *ngIf="proposition">
+        <!-- Title Field -->
+        <div class="form-group mb-4">
+          <label for="title" class="form-label fw-bold">Title</label>
+          <input
+            type="text"
+            id="title"
+            [(ngModel)]="proposition.title"
+            name="title"
+            class="form-control"
+            placeholder="Enter title"
+            required
+          />
+        </div>
 
-    <div class="form-group mb-3">
-      <label for="document">Document</label>
-      <input
-        type="file"
-        id="document"
-        (change)="onFileChange($event)"
-        class="form-control"
-      />
+        <!-- Document Upload -->
+        <div class="form-group mb-4">
+          <label for="document" class="form-label fw-bold">Document</label>
+          <input
+            type="file"
+            id="document"
+            (change)="onFileChange($event)"
+            class="form-control"
+          />
+          <small class="form-text text-muted">
+            Upload a new file if you want to replace the existing document.
+          </small>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary w-25">Save Changes</button>
+          <button type="button" class="btn btn-secondary w-25" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </form>
     </div>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-  </form>
+  </div>
 </div>

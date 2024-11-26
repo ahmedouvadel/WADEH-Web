@@ -9,7 +9,7 @@ import { UserStorageService } from 'src/app/services/Storage/user-storage.servic
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  users: User[] | undefined;
+  users: Array<any> | undefined;
   isAgentLoggedIn : boolean = UserStorageService.isUserLoggedIn();
   isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
 
@@ -28,10 +28,13 @@ export class UserListComponent implements OnInit {
 
   deleteUser(userId: number): void {
     // Logique pour supprimer un utilisateur via le service
-    this.userService.deleteUser(userId).subscribe(() => {
-      this.users = this.users?.filter(user => user.id !== userId);
-    }, error => {
-      console.error('Error deleting user:', error);
-    });
+    const confirmation = confirm('Are you sure you want to delete this comment?');
+    if(confirmation){
+      this.userService.deleteUser(userId).subscribe(() => {
+        this.users = this.users?.filter(user => user.id !== userId);
+      }, error => {
+        console.error('Error deleting user:', error);
+      });
+    }
   }
 }
