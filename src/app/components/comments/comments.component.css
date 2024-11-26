@@ -1,16 +1,78 @@
-.comments {
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .add-comment input,
-  .edit-comment input {
-    width: calc(100% - 120px);
-    margin-right: 10px;
-  }
-  
-  .add-comment button,
-  .edit-comment button {
-    padding: 5px 10px;
-  }
-  
+.comments-section {
+  margin-top: 20px;
+}
+
+.comments-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.comments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comment-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.comment-avatar {
+  background-color: #f0f0f0;
+  color: #555;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.comment-text {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #555;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 700;
+}
+
+.comment-actions a {
+  color: #757575; /* Gray color for actions */
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.comment-actions a:hover {
+  color: #333; /* Slightly darker on hover */
+}
+
+.comment-actions a:active {
+  color: #000; /* Even darker when clicked */
+}

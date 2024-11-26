@@ -10,62 +10,29 @@
   </button>
 </div>
 </div>
-<div class="content-list ">
-
+<div class="content-list">
+  <!-- <h2 *ngIf="selectedCategory">Catégorie: {{ selectedCategory }}</h2> -->
   <div *ngIf="filteredContents.length > 0; else noContents">
     <div *ngFor="let content of filteredContents" class="content-card">
-      <div class="content-summary">
-        <h3 class="content-title">{{ content.title }}</h3>
+      <div class="content-header">
+
+        <div class="post-avatar">{{ content.title[0] }}</div>
+        <div>
+          <h3 class="post-title">{{ content.title }}</h3>
+          <p class="post-meta">{{ content.createdDate | date: 'short' }} • {{ content.category }}</p>
+        </div>
+        <a *ngIf="isAdminLoggedIn" class="comment-actions" (click)="updateContent(content)">Edit</a>
+        <a *ngIf="isAdminLoggedIn" class="comment-actions" (click)="deleteContent(content.id)">Delete</a>
       </div>
-      <div class="divRow">
-        <button class="btn btn-primary" (click)="viewContent(content)">Consulter</button>
-        <button *ngIf="isAdminLoggedIn" class="btn btn-primary" (click)="updateContent(content)">Edit</button>
-        <button *ngIf="isAdminLoggedIn" class="btn btn-danger" (click)="deleteContent(content.id)">Delete</button>
+      <div class="content-body">
+        <p>{{ content.body }}</p>
       </div>
+      <app-comments [contentId]="content.id"></app-comments>
     </div>
   </div>
   <ng-template #noContents>
-    <p>No contents available for this category.</p>
+    <p>Aucun contenu disponible pour cette catégorie.</p>
   </ng-template>
 </div>
 
 
-<!-- Fenêtre modale des détails -->
-<div *ngIf="selectedContent" class="modal-overlay" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <header class="modal-header">
-      <h2>Détails du Contenu</h2>
-      <button class="btn btn-close" (click)="closeModal()">&times;</button>
-    </header>
-    <div class="modal-body">
-      <p><strong>Titre :</strong> {{ selectedContent.title }}</p>
-      <p><strong>Corps :</strong> {{ selectedContent.body }}</p>
-      <p><strong>Date de Création :</strong> {{ selectedContent.createdDate | date:'short' }}</p>
-      <p><strong>Catégorie :</strong> {{ selectedContent.category }}</p>
-
-      <!-- Display existing comments -->
-      <div *ngIf="comments && comments.length > 0">
-        <p class="comment-title">Commentaires :</p>
-        <ul class="comments-list">
-          <li *ngFor="let comment of comments" class="comment-item">
-            <p><strong>{{ comment.userProfile}} : </strong> {{ comment.text }}</p>
-            <div  class="comment-actions">
-              <button *ngIf="canEditComment(comment.userId)" class="btn btn-primary" (click)="editComment(comment.id)">Modifier</button>
-              <button *ngIf="delteeComment(comment.userId)"  class="btn btn-danger" (click)="deleteComment(comment.id)">Supprimer</button>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Link to create a comment -->
-      <a [routerLink]="['/create-comment', selectedContent.id]" class="link">
-        Ajouter un commentaire
-      </a>
-    </div>
-
-    <footer class="modal-footer">
-      <button class="btn btn-secondary" (click)="viewComments(selectedContent.id)">Voir les Commentaires</button>
-      <button class="btn btn-danger" (click)="closeModal()">Fermer</button>
-    </footer>
-  </div>
-</div>

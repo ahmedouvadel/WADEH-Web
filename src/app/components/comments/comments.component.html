@@ -1,26 +1,32 @@
-<div class="comments">
-    <h2>Commentaires</h2>
+<div class="comments-section">
+  <h6 class="comments-title">Commentaires</h6>
 
-    <!-- Ajouter un commentaire -->
-    <div class="add-comment">
-      <input [(ngModel)]="newComment.text" placeholder="Ajouter un commentaire..." />
-      <button (click)="addComment()">Ajouter</button>
-    </div>
+  <!-- Existing Comments -->
+  <ul class="comments-list">
+    <li *ngFor="let comment of comments" class="comment-item">
+      <div class="comment-avatar">{{ comment.userProfile }}</div>
+      <div class="comment-content">
+        <p class="comment-author">{{ comment.userProfile }}</p>
+        <p class="comment-text">{{ comment.text }}</p>
+        <div class="comment-actions">
+          <a
+            *ngIf="canEditComment(comment.userId)"
 
-    <!-- Liste des commentaires -->
-    <ul>
-      <li *ngFor="let comment of comments">
-        <span>{{ comment.text }}</span>
-        <button (click)="selectCommentForEdit(comment)">Modifier</button>
-        <button (click)="deleteComment(comment.id)">Supprimer</button>
-      </li>
-    </ul>
+            (click)="editComment(comment)"
+          >
+            Modifier
+          </a>
+          <a
+            *ngIf="canDeleteComment(comment.userId)"
+            (click)="deleteComment(comment.id)"
+          >
+            Supprimer
+          </a>
+        </div>
+      </div>
+    </li>
+  </ul>
 
-    <!-- Modifier un commentaire -->
-    <div *ngIf="selectedComment" class="edit-comment">
-      <h3>Modifier le commentaire</h3>
-      <input [(ngModel)]="selectedComment.text" />
-      <button (click)="updateComment()">Enregistrer</button>
-      <button (click)="cancelEdit()">Annuler</button>
-    </div>
-  </div>
+  <!-- Add Comment -->
+  <app-comment-create [contentId]="contentId"></app-comment-create>
+</div>

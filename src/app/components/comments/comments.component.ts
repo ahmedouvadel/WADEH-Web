@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommentService } from '../../services/comment.service';
 import { Comment } from '../../models/comment';
+import { UserService } from '../../services/user.service';
+import { UserStorageService } from 'src/app/services/Storage/user-storage.service';
 
 @Component({
   selector: 'app-comments',
@@ -8,67 +10,52 @@ import { Comment } from '../../models/comment';
   styleUrls: ['./comments.component.css']
 })
 export class CommentsComponent implements OnInit {
-
+  @Input() contentId!: number| undefined; // Content ID to load comments for
   comments: Comment[] = [];
-  newComment: Comment = { id: 0, text: '', userId: 0, contentId: 0 };
-  selectedComment: Comment | null = null;
-  contentId: number = 1; // Exemple : ID de contenu fixe pour la démonstration
+  isUserLoggedIn : boolean = UserStorageService.isUserLoggedIn();
+  isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
 
-  constructor(private commentService: CommentService) { }
+  constructor(
+    private commentService: CommentService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
+    this.isUserLoggedIn = UserStorageService.isUserLoggedIn();
+    this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
     this.loadComments();
   }
 
-  // Charger les commentaires par contentId
   loadComments(): void {
-    this.commentService.getCommentsByContentId(this.contentId).subscribe((data: Comment[]) => {
-      this.comments = data;
+    this.commentService.getCommentsByContentId(this.contentId).subscribe((comments) => {
+      this.comments = comments;
     });
   }
 
-  // Ajouter un nouveau commentaire
-  addComment(): void {
-    if (this.newComment.text.trim()) {
-      this.newComment.contentId = this.contentId; // Associe le commentaire au contenu
-      this.commentService.createComment(this.newComment).subscribe((createdComment: Comment) => {
-        this.comments.push(createdComment); // Ajoute le commentaire à la liste
-        this.newComment = { id: 0, text: '', userId: 0, contentId: 0 }; // Réinitialise le formulaire
+  canEditComment(userId: number): boolean {
+    return userId === this.userService.getCurrentUserId();
+  }
+
+  canDeleteComment(userId: number): boolean {
+    return this.isAdminLoggedIn || userId === this.userService.getCurrentUserId();
+  }
+
+  editComment(comment: Comment): void {
+    const updatedText = prompt('Modifier le commentaire:', comment.text);
+    if (updatedText && updatedText.trim()) {
+      const updatedComment = { ...comment, text: updatedText };
+      this.commentService.updateComment(comment.id!, updatedComment).subscribe((newComment) => {
+        const index = this.comments.findIndex((c) => c.id === comment.id);
+        if (index !== -1) this.comments[index] = newComment;
       });
     }
   }
 
-  // Sélectionner un commentaire pour modification
-  selectCommentForEdit(comment: Comment): void {
-    this.selectedComment = { ...comment }; // Clone l'objet pour éviter les modifications directes
-  }
-
-  // Mettre à jour le commentaire sélectionné
-  updateComment(): void {
-    if (this.selectedComment && this.selectedComment.id !== undefined) {
-      this.commentService.updateComment(this.selectedComment.id, this.selectedComment).subscribe((updatedComment: Comment) => {
-        const index = this.comments.findIndex(c => c.id === updatedComment.id);
-        if (index !== -1) {
-          this.comments[index] = updatedComment;
-        }
-        this.selectedComment = null; // Désélectionne le commentaire
-      });
-    }
-  }
-
-
-  // Supprimer un commentaire
   deleteComment(commentId: number | undefined): void {
-    if (commentId !== undefined) {
+    if (confirm('Voulez-vous vraiment supprimer ce commentaire ?')) {
       this.commentService.deleteComment(commentId).subscribe(() => {
-        this.comments = this.comments.filter(c => c.id !== commentId);
+        this.comments = this.comments.filter((c) => c.id !== commentId);
       });
     }
-  }
-
-
-  // Annuler la sélection d'un commentaire pour modification
-  cancelEdit(): void {
-    this.selectedComment = null;
   }
 }

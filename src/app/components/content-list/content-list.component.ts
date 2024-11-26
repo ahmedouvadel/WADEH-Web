@@ -163,19 +163,16 @@ export class ContentListComponent {
       }
     }
 
-    deleteComment(commentId: number| undefined): void {
+    deleteComment(commentId: number | undefined): void {
       const confirmation = confirm('Are you sure you want to delete this comment?');
       if (confirmation) {
-        const userId = this.userService.getCurrentUserId();
-        if (userId !== null) {
-          this.commentService.deleteComment(commentId).subscribe({
-            next: () => {
-              this.comments = this.comments.filter((comment) => comment.id !== commentId);
-              console.log(`Comment with ID ${commentId} has been deleted.`);
-            },
-            error: (err) => console.error('Error deleting comment:', err),
-          });
-        }
+        this.commentService.deleteComment(commentId).subscribe({
+          next: () => {
+            this.comments = this.comments.filter((comment) => comment.id !== commentId);
+            console.log(`Comment with ID ${commentId} has been deleted.`);
+          },
+          error: (err) => console.error('Error deleting comment:', err),
+        });
       }
     }
 

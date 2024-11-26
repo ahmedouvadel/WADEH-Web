@@ -1,19 +1,10 @@
-<div class="comment-create">
-  <h2>Créer un commentaire</h2>
-  <form (ngSubmit)="createComment()">
-    <div class="form-group">
-      <label for="commentText">Votre Commentaire</label>
-      <textarea
-        id="commentText"
-        [(ngModel)]="text"
-        name="text"
-        rows="5"
-        required
-        class="form-control"
-      ></textarea>
-    </div>
-    <button type="submit" [disabled]="isSubmitting" class="btn-submit">
-      Soumettre
-    </button>
-  </form>
-</div>
+<form class="add-comment-form" (ngSubmit)="createComment()">
+  <input
+    type="text"
+    [(ngModel)]="text"
+    name="newComment"
+    placeholder="Ajouter un commentaire..."
+    required
+  />
+  <button type="submit" class="btn-submit">Envoyer</button>
+</form>

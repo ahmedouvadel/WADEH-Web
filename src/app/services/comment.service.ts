@@ -59,11 +59,11 @@ export class CommentService {
       });
     }
 
-    deleteComment(id: number|undefined): Observable<void> {
-      const userId = this.userService.getCurrentUserId();
-      return this.http.delete<void>(`${this.apiUrl}/${id}?userId=${userId}`, {
+    deleteComment(id: number | undefined): Observable<void> {
+      return this.http.delete<void>(`${this.apiUrl}/${id}`, {
         headers: this.getHeaders(),
       });
     }
+
 
 }
