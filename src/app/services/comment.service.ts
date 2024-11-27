@@ -16,10 +16,10 @@ export class CommentService {
   ) { }
 
   private getHeaders(): HttpHeaders {
-    const token = window.localStorage.getItem('token'); // Retrieve token from localStorage
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    const token = window.localStorage.getItem('token');
+    return token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : new HttpHeaders();
   }
 
   // Récupérer tous les commentaires

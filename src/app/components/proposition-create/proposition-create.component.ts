@@ -25,7 +25,7 @@ export class PropositionCreateComponent implements OnInit {
     this.userExisted();
   }
 
-  userExisted(){
+  userExisted(): void{
     // Récupérer l'ID de l'utilisateur connecté
     this.userId = this.userService.getCurrentUserId();
     if (!this.userId) {

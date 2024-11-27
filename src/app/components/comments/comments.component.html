@@ -28,5 +28,5 @@
   </ul>
 
   <!-- Add Comment -->
-  <app-comment-create [contentId]="contentId"></app-comment-create>
+  <app-comment-create *ngIf="isUserLoggedIn || isAdminLoggedIn"  [contentId]="contentId"></app-comment-create>
 </div>

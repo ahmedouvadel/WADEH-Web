@@ -17,6 +17,7 @@ export class PropositionListComponent implements OnInit {
   currentUserId: number | any;
   isUserLoggedIn : boolean = UserStorageService.isUserLoggedIn();
   isAdminLoggedIn : boolean = UserStorageService.isAdminLoggedIn();
+  userId: number | null = null;
 
   constructor(
     private propositionService: PropositionService,
@@ -27,8 +28,28 @@ export class PropositionListComponent implements OnInit {
   ngOnInit(): void {
     this.isUserLoggedIn = UserStorageService.isUserLoggedIn();
     this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
-    this.currentUserId = this.userService.getCurrentUserId(); // Fetch the current user's ID
+    //this.currentUserId = this.userService.getCurrentUserId(); // Fetch the current user's ID
   this.loadPropositions();
+  }
+
+  userExisted(): void{
+    // Récupérer l'ID de l'utilisateur connecté
+    this.userId = this.userService.getCurrentUserId();
+    if (!this.userId) {
+      console.error('Utilisateur non authentifié.');
+      this.router.navigate(['/login']); // Rediriger vers la page de connexion si non connecté
+    }
+  }
+
+  navigateToCreateProposition(): void {
+    this.userId = this.userService.getCurrentUserId();
+    if (!this.userId) {
+      console.error('Utilisateur non authentifié.');
+      alert('Veuillez vous connecter pour ajouter une proposition.');
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/propositions/create']); // Navigate to proposition creation
+    }
   }
 
   loadPropositions(): void {

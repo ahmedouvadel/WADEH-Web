@@ -100,12 +100,13 @@ export class UserService {
     return currentUser ? JSON.parse(currentUser) : null;
   } */
 
-    getCurrentUserId(): number {
-      const userId = localStorage.getItem('userId'); // Retrieves 'userId' as a string or null
-      if (userId) {
-        return Number(userId); // Convert the string to a number
+    getCurrentUserId(): number | null {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        console.error('User ID not found in localStorage');
+        return null; // Return null instead of throwing an error
       }
-      throw new Error('User ID not found in localStorage'); // Handle the null case
+      return parseInt(userId, 10);
     }
 
 }

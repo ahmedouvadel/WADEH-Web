@@ -11,12 +11,11 @@ export class PropositionService {
 
   constructor(private http: HttpClient) {}
 
-  // Generate headers with the Authorization token
   private getHeaders(): HttpHeaders {
-    const token = window.localStorage.getItem('token'); // Retrieve token from localStorage
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+    const token = window.localStorage.getItem('token');
+    return token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : new HttpHeaders();
   }
 
   // Create a new proposition with a file
@@ -30,16 +29,14 @@ export class PropositionService {
     formData.append('userId', userId.toString());
     formData.append('file', file);
 
-    return this.http.post<Proposition>(this.apiUrl, formData, {
-      headers: this.getHeaders(),
-    });
+    return this.http.post<Proposition>(this.apiUrl, formData,  );
   }
 
   // Get all propositions
   getAllPropositions(): Observable<Proposition[]> {
     return this.http.get<Proposition[]>(this.apiUrl, {
       headers: this.getHeaders(),
-    });
+    } );
   }
 
   // Get propositions with status === true
@@ -53,16 +50,12 @@ getValidatedPropositions(): Observable<Proposition[]> {
 
   // Get propositions by user
   getPropositionsByUser(userId: number): Observable<Proposition[]> {
-    return this.http.get<Proposition[]>(`${this.apiUrl}/user/${userId}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<Proposition[]>(`${this.apiUrl}/user/${userId}`,  );
   }
 
   // Get a single proposition by its ID
   getPropositionById(id: number): Observable<Proposition> {
-    return this.http.get<Proposition>(`${this.apiUrl}/${id}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.get<Proposition>(`${this.apiUrl}/${id}`,  );
   }
 
   updateProposition(
@@ -121,9 +114,7 @@ getValidatedPropositions(): Observable<Proposition[]> {
 
   // Delete a proposition
   deleteProposition(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.getHeaders(),
-    });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`,  );
   }
 
   /* // Delete a proposition (with ownership check)
