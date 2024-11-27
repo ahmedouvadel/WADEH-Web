@@ -4,7 +4,7 @@
   <!-- Existing Comments -->
   <ul class="comments-list">
     <li *ngFor="let comment of comments" class="comment-item">
-      <div class="comment-avatar">{{ comment.userProfile }}</div>
+      <div class="comment-avatar">{{ comment.userProfile ? comment.userProfile.slice(0, 2).toUpperCase() : '' }}</div> <!-- Hon le3dty tb9i gl3i username mn avatar wlla dirih {{ comment.userProfile }} wlla **  -->
       <div class="comment-content">
         <p class="comment-author">{{ comment.userProfile }}</p>
         <p class="comment-text">{{ comment.text }}</p>
