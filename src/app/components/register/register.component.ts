@@ -1,102 +1,118 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { OtpService } from '../../services/otp.service'; // Importez le service OTP
-import { User } from '../../models/user';
+import { OtpService } from '../../services/otp.service';
+import { UserDTO } from '../../models/userdto';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  otpForm: FormGroup; // Formulaire pour la vérification de l'OTP
+  otpForm: FormGroup;
   isLoading = false;
-  isOtpSent = false; // Pour gérer l'état d'envoi de l'OTP
-  verifToken: string = ''; // Token reçu pour la vérification de l'OTP
+  isOtpSent = false;
+  verifToken: string = '';
   errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(
     private userService: UserService,
-    private otpService: OtpService, // Injectez le service OTP
+    private otpService: OtpService,
     private fb: FormBuilder,
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      number: ['', [Validators.required, Validators.pattern('^[234]{1}[0-9]{7}$')]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      userprofile: ['', [Validators.required, Validators.minLength(2)]],
+      name: ['', [Validators.required, Validators.pattern('^[234]{1}[0-9]{7}$')]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
 
     this.otpForm = this.fb.group({
-      otp: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(6)]]
+      otp: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(6)]],
     });
   }
 
-  // Étape 1 : Envoyer l'OTP
-  sendOtp() {
-    if (this.registerForm.get('number')?.valid) {
-      const phoneNumber = this.registerForm.get('number')?.value;
+  // Step 1: Send OTP
+  sendOtp(): void {
+    if (this.registerForm.get('name')?.valid) {
+      const phoneNumber = this.registerForm.get('name')?.value;
       this.isLoading = true;
 
       this.otpService.sendOtp(phoneNumber, 'MyApp').subscribe({
         next: (response) => {
-          console.log('OTP envoyé:', response);
+          console.log('OTP sent:', response);
           this.isOtpSent = true;
-          this.verifToken = response.verifToken; // Stocker le token pour la vérification
+          this.verifToken = response.verifToken; // Store verification token
+          this.successMessage = 'OTP sent successfully. Please check your phone.';
+          this.errorMessage = '';
         },
         error: (error) => {
-          console.error('Erreur lors de l\'envoi de l\'OTP:', error);
-          this.errorMessage = 'Erreur lors de l\'envoi de l\'OTP. Veuillez réessayer.';
+          console.error('Error sending OTP:', error);
+          this.errorMessage = error?.error?.message || 'Error sending OTP. Please try again.';
+          this.successMessage = '';
         },
         complete: () => {
           this.isLoading = false;
-        }
+        },
       });
+    } else {
+      this.errorMessage = 'Please provide a valid phone number.';
+      this.successMessage = '';
     }
   }
 
-  // Étape 2 : Vérifier l'OTP
-  verifyOtpAndRegister() {
+  verifyOtpAndRegister(): void {
     if (this.otpForm.valid) {
       const otp = this.otpForm.get('otp')?.value;
 
       this.otpService.verifyOtp(otp, this.verifToken).subscribe({
         next: (response) => {
-          console.log('OTP vérifié:', response);
+          console.log('OTP verified:', response);
           if (response.success) {
-            this.registerUser(); // Procéder à l'inscription
+            this.successMessage = 'OTP verified successfully. Proceeding with registration.';
+            this.errorMessage = '';
+            this.registerUser(); // Proceed to user registration
           } else {
-            this.errorMessage = 'OTP invalide ou expiré.';
+            this.errorMessage = 'Invalid or expired OTP.';
+            this.successMessage = '';
           }
         },
         error: (error) => {
-          console.error('Erreur lors de la vérification de l\'OTP:', error);
-          this.errorMessage = 'Erreur lors de la vérification de l\'OTP.';
-        }
+          console.error('Error verifying OTP:', error);
+          this.errorMessage = error?.error?.message || 'Error verifying OTP. Please try again.';
+          this.successMessage = '';
+        },
       });
+    } else {
+      this.errorMessage = 'Please enter a valid OTP.';
+      this.successMessage = '';
     }
   }
 
-  // Étape 3 : Inscrire l'utilisateur
-  private registerUser() {
-    const user: User = this.registerForm.value;
+  private registerUser(): void {
+    const user: UserDTO = this.registerForm.value;
     this.isLoading = true;
 
     this.userService.registerUser(user).subscribe({
       next: (response) => {
-        console.log('Utilisateur inscrit:', response);
-        this.router.navigate(['login']);
+        console.log('User registered:', response);
+        this.successMessage = 'Registration successful. Redirecting to login.';
+        this.errorMessage = '';
+        setTimeout(() => this.router.navigate(['/login']), 3000); 
       },
       error: (error) => {
-        console.error('Erreur lors de l\'inscription:', error);
-        this.errorMessage = 'Erreur lors de l\'inscription. Veuillez réessayer.';
+        console.error('Error registering user:', error);
+        this.errorMessage = error?.error?.message || 'Registration failed. Please try again.';
+        this.successMessage = '';
       },
       complete: () => {
         this.isLoading = false;
-      }
+      },
     });
   }
+
 }

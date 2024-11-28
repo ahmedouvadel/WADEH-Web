@@ -10,12 +10,12 @@
     <form class="register-form" *ngIf="!isOtpSent" [formGroup]="registerForm" (ngSubmit)="sendOtp()">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" formControlName="name" placeholder="Enter your name" />
+        <input type="text" id="name" formControlName="userprofile" placeholder="Enter your name" />
       </div>
 
       <div class="form-group">
         <label for="number">Number</label>
-        <input type="text" id="number" formControlName="number" placeholder="Enter your number" />
+        <input type="text" id="number" formControlName="name" placeholder="Enter your number" />
       </div>
 
       <div class="form-group">

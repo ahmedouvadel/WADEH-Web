@@ -43,12 +43,11 @@ export class PropositionCreateComponent implements OnInit {
       alert('Veuillez remplir tous les champs.');
       return;
     }
-
     this.propositionService.createProposition(this.title, this.userId, this.file).subscribe({
       next: (response: Proposition) => {
         console.log('Proposition créée avec succès :', response);
         alert('Votre suggestion a été envoyée avec succès aux administrateurs. Votre suggestion sera publiée après vérification du contenu.');
-        this.router.navigate(['/contents/:category']); // Redirection après création
+        this.router.navigate(['/propositions']); // Redirection après création
       },
       error: (err) => {
         console.error('Erreur lors de la création de la proposition :', err);

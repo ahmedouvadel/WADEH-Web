@@ -3,33 +3,42 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OtpService {
   private baseUrl = 'http://apipd.digital.gov.mr';
-  private authHeader = 'Basic ' + btoa('temp:te@mp!24'); // Encodage des credentials
 
   constructor(private http: HttpClient) {}
 
-  sendOtp(phoneNumber: string, appName: string): Observable<any> {
-    const url = `${this.baseUrl}/send-msg-otp`;
-    const headers = new HttpHeaders({
-      Authorization: this.authHeader,
+  private getAuthHeaders(): HttpHeaders {
+    const username = 'temp';
+    const password = 'te@mp!24';
+    const basicAuth = `Basic ${btoa(`${username}:${password}`)}`; // Encode credentials
+    return new HttpHeaders({
+      Authorization: basicAuth,
       'Content-Type': 'application/json',
     });
+  }
 
-    const body = { phoneNumber, appName, lang: 'en' };
-    return this.http.post(url, body, { headers });
+  sendOtp(phoneNumber: string, appName: string, lang = 'en'): Observable<any> {
+    const url = `${this.baseUrl}/send-msg-otp`;
+    const body = {
+      phoneNumber,
+      appName,
+      lang,
+      message: 'Votre code OTP est:', // Optional message
+    };
+
+    return this.http.post(url, body, { headers: this.getAuthHeaders() });
   }
 
   verifyOtp(otp: string, verifToken: string): Observable<any> {
     const url = `${this.baseUrl}/verify-msg-otp`;
-    const headers = new HttpHeaders({
-      Authorization: this.authHeader,
-      'Content-Type': 'application/json',
-    });
+    const body = {
+      otp,
+      verifToken,
+    };
 
-    const body = { otp, verifToken };
-    return this.http.post(url, body, { headers });
+    return this.http.post(url, body, { headers: this.getAuthHeaders() });
   }
 }
