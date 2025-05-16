@@ -1,13 +1,12 @@
 <div class="register-container">
   <div class="register-box">
     <div class="logo">
-      <img src="assets/logo.jpeg" alt="Logo">
+      <img src="assets/logo.jpeg" alt="Logo" />
     </div>
 
     <h2>Register</h2>
 
-    <!-- Étape 1 : Envoi de l'OTP -->
-    <form class="register-form" *ngIf="!isOtpSent" [formGroup]="registerForm" (ngSubmit)="sendOtp()">
+    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="registerUser()">
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" formControlName="userprofile" placeholder="Enter your name" />
@@ -24,24 +23,15 @@
       </div>
 
       <button type="submit" class="register-button" [disabled]="isLoading">
-        {{ isLoading ? 'Sending OTP...' : 'Send OTP' }}
-      </button>
-    </form>
-
-    <!-- Étape 2 : Vérification de l'OTP -->
-    <form class="otp-form" *ngIf="isOtpSent" [formGroup]="otpForm" (ngSubmit)="verifyOtpAndRegister()">
-      <div class="form-group">
-        <label for="otp">Enter OTP</label>
-        <input type="text" id="otp" formControlName="otp" placeholder="Enter the OTP sent to your number" />
-      </div>
-
-      <button type="submit" class="verify-button" [disabled]="isLoading">
-        {{ isLoading ? 'Verifying...' : 'Verify & Register' }}
+        {{ isLoading ? 'Registering...' : 'Register' }}
       </button>
     </form>
 
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
     </div>
   </div>
 </div>
